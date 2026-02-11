@@ -5,14 +5,15 @@ GPIO.setmode(GPIO.BCM)
 
 led = 26
 GPIO.setup(led, GPIO.OUT)
-button = 13
 
-GPIO.setup(button, GPIO.IN)
-state = True
+pwm = GPIO.PWM(led, 200)
+duty = 0.0
+pwm.start(duty)
 
 
 while True:
-    if GPIO.input(button):
-        state = not state
-        GPIO.output(led, state)
-        time.sleep(0.2)
+    pwm.ChangeDutyCycle(duty)
+    time.sleep(0.05)
+    duty += 1.0
+    if duty > 100.0:
+        duty = 0.0
